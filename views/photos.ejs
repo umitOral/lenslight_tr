@@ -33,9 +33,9 @@
                               <img src="images/g1.jpg" alt="Bridge">
                               <div class="view_main">
                                  <div class="pose">
-                                    <a class="read_more" href="images/g1.jpg"><img src="images/ga.png" alt="#" /></a>
+                                    <a class="read_more" href="/photos/<%= element._id %>"><img src="images/ga.png" alt="#" /></a>
                                     <h3><%= element.name %></h3>
-                                    <p><%= element.description %></p>
+                                    <p><%= element.description.substring(0, 30) + "..." %></p>
                                  </div>
                               </div>
                            </div>
@@ -57,16 +57,7 @@
          <!-- end footer -->
          <%- include('partials/_footer.ejs') %>
             <!-- end footer -->
-            <!-- Javascript files-->
-            <script src="js/jquery.min.js"></script>
-            <script src="js/bootstrap.bundle.min.js"></script>
-            <script src="js/jquery-3.0.0.min.js"></script>
-            <script src="js/owl.carousel.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
-            <script src="js/custom.js"></script>
-            <script type="text/javascript">
-               baguetteBox.run('.tz-gallery');
-            </script>
+           
    </body>
 
 </html>
