@@ -1,6 +1,6 @@
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
-import jws from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 
 const myPlaintextPassword = "umito"
@@ -9,10 +9,7 @@ const saltRounds = 10;
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body)
-        res.status(201).json({
-            success: true,
-            data: user
-        })
+        res.redirect("/login")
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -33,12 +30,15 @@ const loginUser = async (req, res) => {
                 message: "kullanıcı bulunamadı"
             })
         }
+
         if (same) {
-            res.status(200).json({
-                success: "başarıyla giriş yapıldı",
-                data: user,
-                token: createJwt(user._id)
+            const token = createtoken(user._id)
+            res.cookie("jsonwebtoken", token, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24
             })
+
+            res.redirect("dashboard")
         } else {
             res.status(401).json({
                 success: false,
@@ -53,12 +53,24 @@ const loginUser = async (req, res) => {
     }
 }
 
-const createJwt = (userID) => {
-    return jws.sign({ userID }, process.env.JWT_SECRET, {
+const createtoken = (userID) => {
+    return jwt.sign({ userID }, process.env.JWT_SECRET, {
         expiresIn: "1d"
     })
 }
 
+const getDashboardPage=(req,res)=>{
+    res.render("dashboard",{
+        link:"dashboard"
+    })
+}
+const getLogOut=(req,res)=>{
+    res.cookie("jsonwebtoken","",{
+        maxAge:1
+    }) 
+    res.redirect("/")
+}
 
 
-export { createUser, loginUser }
+
+export { createUser, loginUser,getDashboardPage,getLogOut }

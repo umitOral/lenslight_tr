@@ -20,4 +20,5 @@ const getloginPage=(req,res)=>{
     })
 }
 
+
 export { getIndexPage, getAboutPage,getRegisterPage,getloginPage }

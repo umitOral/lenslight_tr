@@ -1,22 +1,49 @@
-import User from "../models/userModel.js"
+
 import jwt from 'jsonwebtoken';
+import User from '../models/userModel.js';
+
+const checkUser = (req, res, next) => {
+    const token = req.cookies.jsonwebtoken
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+            if (err) {
+                console.log(err.message)
+                res.locals.user = null
+                next()
+            } else {
+                const user = await User.findById(decodedToken.userID)
+                res.locals.user = user
+                next()
+            }
+        })
+    }else{
+        res.locals.user=null
+        next()
+    }
+
+
+}
 
 const authenticateToken = async (req, res, next) => {
     try {
-        let token = ""
-        if (req.headers["authorization"]) {
-            const token = req.headers["authorization"].split(" ")[1]
-            req.user = await User.findById(
-                jwt.verify(token, process.env.JWT_SECRET).user_id
-            )
-        } else {
-            return res.status(401).json({
-                success: false,
-                message: "token yok malesef"
+        const token = req.cookies.jsonwebtoken
+
+        if (token) {
+            jwt.verify(token, process.env.JWT_SECRET, err => {
+                if (err) {
+                    console.log(err.message)
+                    res.redirect("login")
+                } else {
+                    next()
+                }
             })
+
+        } else {
+            res.redirect("/login")
         }
 
-        next()
+
     } catch (error) {
         res.status(401).json({
             succes: false,
@@ -25,4 +52,4 @@ const authenticateToken = async (req, res, next) => {
     }
 }
 
-export default authenticateToken
+export { authenticateToken, checkUser }

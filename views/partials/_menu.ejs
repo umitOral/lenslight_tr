@@ -15,19 +15,34 @@
                      <li><a class="<%= link === " about" && "active" %>" href="/about">About</a></li>
                      <li><a href="services.html">Services</a></li>
                      <li><a class="<%= link === " photos" && "active" %>" href="/photos">Photos</a></li>
-                     <li><a <% if (link==="photos" ) { %>
-                           class="active"
-                           <% } %> href="projects.html">Projects
-                        </a></li>
-                     <li><a href="blog.html">Blog</a></li>
-                     <li><a <% if (link==="login" ) { %>
-                           class="active"
-                           <% } %> href="/login">Login
-                        </a></li>
-                     <li><a <% if (link==="register" ) { %>
-                           class="active"
-                           <% } %> href="/register">Register
-                        </a></li>
+
+
+                     <% if (user) { %>
+                        <li><a href="/users/logout">LogOut</a></li>
+                        
+                        <li><a <% if (link==="dashboard" ) { %>
+                              class="active"
+                              <% } %> href="/users/dashboard">Dashboard
+                           </a>
+                        </li>
+                        <%} else { %>
+                           <li><a <% if (link==="login" ) { %>
+                                 class="active"
+                                 <% } %> href="/login">Login
+                              </a>
+                           </li>
+
+                           <li><a <% if (link==="register" ) { %>
+                                 class="active"
+                                 <% } %> href="/register">Register
+                              </a>
+                           </li>
+
+                           <% } %>
+
+
+
+
                   </ul>
                   <button class="nav-toggler">
                      <span></span>
