@@ -2,17 +2,23 @@ import Photo from '../models/photoModel.js';
 
 const createPhoto = async (req, res) => {
     try {
-        
-        const photo = await Photo.create(req.body)
-        res.status(201).json({
-            success: true,
-            data: photo
+
+        const photo = await Photo.create({
+            name: req.body.name,
+            description: req.body.description,
+            user: res.locals.user._id
         })
+
+        res.status(201).redirect("/users/dashboard")
+        console.log(photo)
+
     } catch (error) {
         res.status(500).json({
             success: false,
-            mesage: error
+            message: error
         })
+        console.log("BODY::")
+
     }
 
 }
@@ -32,7 +38,7 @@ const getAllPhotos = async (req, res) => {
 }
 const getSinglePhoto = async (req, res) => {
     try {
-        const photo= await Photo.findById({_id:req.params.id})
+        const photo = await Photo.findById({ _id: req.params.id })
         res.status(201).render("photo", {
             photo,
             link: "photos"
@@ -45,4 +51,4 @@ const getSinglePhoto = async (req, res) => {
     }
 }
 
-export { createPhoto, getAllPhotos,getSinglePhoto }
+export { createPhoto, getAllPhotos, getSinglePhoto }

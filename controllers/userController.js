@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Photo from '../models/photoModel.js';
 
 
 const myPlaintextPassword = "umito"
@@ -9,12 +10,24 @@ const saltRounds = 10;
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body)
-        res.redirect("/login")
+        res.status(200).json({user:user._id})
+
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error
-        })
+        
+        let errors2={}
+        if (error.code===11000) {
+            errors2.email= "email already exist"
+        }
+        if (error.name === "ValidationError") {
+            
+            Object.keys(error.errors).forEach((key)=>{
+                errors2[key]=error.errors[key].message
+            })
+        }
+        
+        res.status(400).json(
+            errors2
+        )
     }
 }
 
@@ -59,11 +72,15 @@ const createtoken = (userID) => {
     })
 }
 
-const getDashboardPage=(req,res)=>{
+const getDashboardPage=async (req,res)=>{
+    const photos=await Photo.find({user:res.locals.user._id})
+
     res.render("dashboard",{
+        photos,
         link:"dashboard"
     })
 }
+
 const getLogOut=(req,res)=>{
     res.cookie("jsonwebtoken","",{
         maxAge:1
