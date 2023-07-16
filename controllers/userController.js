@@ -10,21 +10,21 @@ const saltRounds = 10;
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body)
-        res.status(200).json({user:user._id})
+        res.status(200).json({ user: user._id })
 
     } catch (error) {
-        
-        let errors2={}
-        if (error.code===11000) {
-            errors2.email= "email already exist"
+
+        let errors2 = {}
+        if (error.code === 11000) {
+            errors2.email = "email already exist"
         }
         if (error.name === "ValidationError") {
-            
-            Object.keys(error.errors).forEach((key)=>{
-                errors2[key]=error.errors[key].message
+
+            Object.keys(error.errors).forEach((key) => {
+                errors2[key] = error.errors[key].message
             })
         }
-        
+
         res.status(400).json(
             errors2
         )
@@ -72,22 +72,56 @@ const createtoken = (userID) => {
     })
 }
 
-const getDashboardPage=async (req,res)=>{
-    const photos=await Photo.find({user:res.locals.user._id})
+const getDashboardPage = async (req, res) => {
+    const photos = await Photo.find({ user: res.locals.user._id })
 
-    res.render("dashboard",{
+    res.render("dashboard", {
         photos,
-        link:"dashboard"
+        link: "dashboard"
     })
 }
+const getAllUsers = async (req, res) => {
 
-const getLogOut=(req,res)=>{
-    res.cookie("jsonwebtoken","",{
-        maxAge:1
-    }) 
+    try {
+        const users = await User.find({_id:{$ne:res.locals.user._id}})
+        res.render("users", {
+            users,
+            link: "users"
+        })
+    } catch (error) {
+        res.status(500).json({
+            succes: false,
+            message: error
+        })
+    }
+
+}
+
+const getSingleUser = async (req, res) => {
+    try {
+        const photos = await Photo.find({ user:res.locals.user._id })
+        const users = await User.findById({ _id: req.params.id })
+        res.status(201).render("userDetails", {
+            photos,
+            users,
+            link: ""
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            mesage: error
+        })
+    }
+}
+
+
+const getLogOut = (req, res) => {
+    res.cookie("jsonwebtoken", "", {
+        maxAge: 1
+    })
     res.redirect("/")
 }
 
 
 
-export { createUser, loginUser,getDashboardPage,getLogOut }
+export { createUser, loginUser, getDashboardPage, getLogOut, getSingleUser, getAllUsers }

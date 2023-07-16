@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./partials/_header.ejs') %>
+<%- include('partials/_header.ejs') %>
   <!-- body -->
 
   <body class="main-layout inner_page">
@@ -11,7 +11,7 @@
     <!-- end loader -->
 
     <!-- header -->
-    <%- include('./partials/_menu.ejs') %>
+    <%- include('partials/_menu.ejs') %>
       <!-- end header inner -->
       <!-- about -->
       <div class="about">
@@ -26,12 +26,13 @@
                 <p>
                   <%=photo.description%>
                 </p>
-                <a class="read_more" href="about.html">Read More</a>
+                <a class="read_more" href="/users/<%= photo.user._id %>">Artist: <%=  photo.user.username%></a>
               </div>
             </div>
             <div class="col-md-6">
               <div class="about_img">
-                <figure><img src="images/about_img.png" alt="#" /></figure>
+                <figure><img src="<%= photo.url %>" alt="<%= photo.name %>" /></figure>
+                
               </div>
             </div>
           </div>
@@ -39,7 +40,7 @@
       </div>
       <!-- end about -->
       <!-- end footer -->
-      <%- include('./partials/_footer.ejs') %>
+      <%- include("partials/_footer") %>
         <!-- end footer -->
         <!-- Javascript files-->
         <script src="js/jquery.min.js"></script>

@@ -19,6 +19,11 @@ const getloginPage=(req,res)=>{
         link:"login"
     })
 }
+const getUsersPage =async(req,res)=>{
+    res.render("users",{
+        link:"users"
+    })
+}
 
 
-export { getIndexPage, getAboutPage,getRegisterPage,getloginPage }
+export { getIndexPage, getAboutPage,getRegisterPage,getloginPage,getUsersPage }
