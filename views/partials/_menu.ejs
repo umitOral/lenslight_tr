@@ -11,11 +11,11 @@
             <div class="navbar-area">
                <nav class="site-navbar">
                   <ul>
-                     <li><a class="<%= link === " index" && "active" %>" href="/">Home</a></li>
-                     <li><a class="<%= link === " about" && "active" %>" href="/about">About</a></li>
-
-                     <li><a class="<%= link === " photos" && "active" %>" href="/photos">Photos</a></li>
                      
+                     <li><a class="<%= link === "index" && "active" %>" href="/">Home</a></li>
+                     <li><a class="<%= link === "about" && "active" %>" href="/about">About</a></li>
+                     <li><a class="<%= link === "photos" && "active" %>" href="/photos">Photos</a></li>
+
 
                      <% if (user) { %>
                         <li><a class="<%= link === " users" && "active" %>" href="/users" >Users</a></li>
@@ -38,6 +38,11 @@
                                  <% } %> href="/register">Register
                               </a>
                            </li>
+                           <li><a <% if (link==="contact" ) { %>
+                                 class="active"
+                                 <% } %> href="/contact">Contact
+                              </a>
+                           </li>
 
                            <% } %>
 
@@ -55,18 +60,18 @@
             <ul class="email text_align_right">
                <!-- <li><a href="Javascript:void(0)">Login</a></li> -->
                <% if(!user){ %>
-                  <li><a href="/login"><i class="fa fa-user" aria-hidden="true"></i><%= "Login" %></a></li>
-                <% } else{ %>  
-                  <li><a href="Javascript:void(0)"><i class="fa fa-user" aria-hidden="true"></i><%=locals.user.username %></a></li>
+                  <li><a href="/login"><i class="fa fa-user" aria-hidden="true"></i>
+                        <%= "Login" %>
+                     </a></li>
+                  <% } else{ %>
+                     <li><a href="Javascript:void(0)"><i class="fa fa-user" aria-hidden="true"></i>
+                           <%=locals.user.username %>
+                        </a></li>
 
-               <% } %>
+                     <% } %>
 
-             
-               
-                
-               
-               
-               <li><a href="Javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+
+                        <li><a href="Javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i></a></li>
             </ul>
          </div>
       </div>

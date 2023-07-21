@@ -1,47 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-   <%- include('partials/_header.ejs') %>>
+<%- include('partials/_header.ejs') %>>
    <!-- body -->
+
    <body class="main-layout inner_page">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="/images/loading.gif" alt="#"/></div>
+         <div class="loader"><img src="/images/loading.gif" alt="#" /></div>
       </div>
       <!-- end loader -->
-     
-         <!-- header -->
-         <%- include('partials/_menu.ejs') %>
+
+      <!-- header -->
+      <%- include('partials/_menu.ejs') %>
          <!-- end header inner -->
-      <!-- team -->
-      <div class="team">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage text_align_center">
-                    
-                     <h2><%= users.username %></h2>
-                  </div>
-               </div>
-               <% photos.forEach(element => { %>
-                  <div class="col-md-4">
-                     <div class="team_box text_align_center">
-                        <div class="team_img">
-                          <figure><img src="<%= element.url %>" alt="#"/></figure>
-                        </div>
+
+         <div class="customers">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="titlepage text_align_center">
+
+                        <h2>
+                           <%= user.username %>
+                        </h2>
                      </div>
                   </div>
-               <% }) %>
-               
-               
-               
+               </div>
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="satteb text_align_center">
+                        <p>fact that a reader will be distracted by the readable content of a page when looking at its
+                           layout. The point of using Lorem Ipsum is that itfact that a reader will be distracted by the
+                           readable content of a page when looking at its layout. The point of using Lorem Ipsum is that
+                        </p>
+                        <h3>The point of using </h3>
+                        <i><img src="/images/custo.jpg" alt="#" /></i>
+
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
-      </div>
-      <!-- end team -->
-      <!-- end footer -->
-      <%- include('partials/_footer.ejs') %>
-      <!-- end footer -->
-      <!-- Javascript files-->
-      
+
+         <!-- team -->
+         <div class="team">
+            <div class="container">
+               <div class="row">
+                  <div class="container">
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="text-align-center">
+                              <% if (!infollower) { %>
+                                 <a style="margin:10px auto ;background-color:yellowgreen; "
+                                    href="./<%= user._id %>/follow?_method=PUT" class="read_more">FOLLOW</a>
+
+                                 <% } else{ %>
+                                    <a style="margin:10px auto ;background-color:pink;"
+                                       href="./<%= user._id %>/unfollow?_method=PUT" class="read_more"
+                                       class="read_more">UNFOLLOW</a>
+                                    <% } %>
+
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="titlepage text_align_center">
+                        </div>
+                        <h2>My gallery</h2>
+                     </div>
+                  </div>
+                  <% photos.forEach(element=> { %>
+                     <div class="col-md-4">
+                        <div class="team_box text_align_center">
+                           <div class="team_img">
+                              <figure><img src="<%= element.url %>" alt="#" /></figure>
+                           </div>
+                        </div>
+                     </div>
+                     <% }) %>
+               </div>
+            </div>
+         </div>
+         <!-- end team -->
+         <!-- end footer -->
+         <%- include('partials/_footer.ejs') %>
+            <!-- end footer -->
+            <!-- Javascript files-->
+
    </body>
+
 </html>

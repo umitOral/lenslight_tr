@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import {checkUser} from './middlewares/authMiddleware.js';
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
+import methodOverride from 'method-override';
 
 dotenv.config();  //.env dosyasındaki verilere ulaşmak için kullanılır
 cloudinary.config({
@@ -37,6 +38,10 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 //RESİM Yükleme işlemleri
 app.use(fileUpload({useTempFiles:true}))
+//put methodunu kullanmak için gerekli
+app.use(methodOverride('_method',{
+    methods:["POST","GET"]
+}))
 
 //Routes
 app.use("*",checkUser)

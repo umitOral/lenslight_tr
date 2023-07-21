@@ -263,6 +263,20 @@ button {
     border-radius: 5px;
     font-weight: normal;
 }
+.read_more1 {
+    font-size: 17px;
+    background: #3891f6;
+    max-width: 266px;
+    width: 50%;
+    transition: ease-in all 0.5s;
+    color: #fff;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: normal;
+}
 
 .read_more:hover {
     background: #fff;
@@ -698,7 +712,7 @@ ul.email li i {
 
 .about_img figure img {
     position: relative;
-    z-index: 9999;
+    
 }
 
 .about .titlepage {

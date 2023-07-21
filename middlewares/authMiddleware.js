@@ -2,6 +2,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
+import Photo from '../models/photoModel.js';
+
 const checkUser = (req, res, next) => {
     const token = req.cookies.jsonwebtoken
 
@@ -17,8 +19,8 @@ const checkUser = (req, res, next) => {
                 next()
             }
         })
-    }else{
-        res.locals.user=null
+    } else {
+        res.locals.user = null
         next()
     }
 
@@ -52,4 +54,27 @@ const authenticateToken = async (req, res, next) => {
     }
 }
 
-export { authenticateToken, checkUser }
+
+// const checkOwner = async (req, res, next) => {
+
+//     const userID = res.locals.user._id
+//     const photo = await Photo.findById(req.params.id).populate("user")
+//     console.log(photo)
+//     const photoUserID = photo.user._id
+//     try {
+//         if (userID === photoUserID) {
+//             next()
+//         }
+//     } catch (error) {
+//         res.status(401).json({
+//             success: false,
+//             message: "yetkili değilsiniz."
+//         })
+//     }
+
+// }
+
+
+
+    export { authenticateToken, checkUser }
+

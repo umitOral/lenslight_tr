@@ -26,18 +26,29 @@
                 <p>
                   <%=photo.description%>
                 </p>
-                <a class="read_more" href="/users/<%= photo.user._id %>">Artist: <%=  photo.user.username%></a>
+                <a class="read_more" href="/users/<%= photo.user._id %>">Artist: <%= photo.user.username%></a>
+                <% if (photoOwner) { %>
+                  <a class="read_more" href="/photos/<%= photo._id%>/?_method=DELETE">Delete</a>
+
+                  <button data-toggle="modal" data-target=".bd-example-modal-lg" type="button"
+                    style=" margin-top:100px; margin-left: 50%; transform: translateX(-50%);" class="read_more"
+                    href="about.html">Update</button>
+                  <% } %>
+
+
+
               </div>
             </div>
             <div class="col-md-6">
               <div class="about_img">
                 <figure><img src="<%= photo.url %>" alt="<%= photo.name %>" /></figure>
-                
+
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <!-- end about -->
       <!-- end footer -->
       <%- include("partials/_footer") %>

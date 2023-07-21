@@ -46,11 +46,28 @@
 
          <div class="row">
             <div class="col-md-12 text_align_center">
-              <button data-toggle="modal" data-target=".bd-example-modal-lg" type="button"
-                style=" margin-top:100px; margin-left: 50%; transform: translateX(-50%);" class="read_more"
-                href="about.html">Add New Photo</button>
+               <button data-toggle="modal" data-target=".bd-example-modal-lg" type="button"
+                  style=" margin-top:100px; margin-left: 50%; transform: translateX(-50%);" class="read_more"
+                  href="about.html">Add New Photo</button>
             </div>
-          </div>
+         </div>
+
+         <div class="row">
+            <div class="col-md-6 text_align_center" style="margin-top:50px">
+               <button style="  margin-left: 50%" class="read_more">Followers</button>
+               <% user.followers.forEach(element => { %>
+                  <button style=" margin-left: 50%" class="read_more bg-primary small" ><%= element.username %></button>
+
+               <% }) %>
+            </div>
+            <div class="col-md-6 text_align_center" style="margin-top:50px">
+               <button style="  margin-left: 50%" class="read_more">Followings</button>
+               <% user.followings.forEach(element => { %>
+                  <button style=" margin-left: 50%" class="read_more bg-primary" ><%= element.username %></button>
+               <% }) %>
+            </div>
+
+         </div>
 
 
          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -74,7 +91,8 @@
                            </div>
                         </div>
                         <div class="col-md-10 offset-md-1">
-                           <form id="request" class="main_form" method="POST" action="/photos" enctype="multipart/form-data">
+                           <form id="request" class="main_form" method="POST" action="/photos"
+                              enctype="multipart/form-data">
                               <div class="row">
                                  <div class="col-md-12">
                                     <input class="form_control" placeholder="Name" type="text" name="name">
@@ -107,34 +125,37 @@
                <div class="row">
                   <div class="col-md-12">
                      <div class="titlepage text_align_center">
-                        
+
                         <h2>Our gallery</h2>
                      </div>
                   </div>
                </div>
                <div class="tz-gallery">
                   <div class="row">
-                     <% photos.forEach(element => { %>
+                     <% photos.forEach(element=> { %>
                         <div class="col-lg-4 col-md-6 ma_bottom30">
                            <div class="lightbox">
                               <img src="<%= element.url %>" alt="Bridge">
                               <div class="view_main">
                                  <div class="pose">
-                                    <a class="read_more" href="/photos/<%= element._id %>"><img src="/images/ga.png" alt="#" /></a>
-                                    <h3><%= element.name %></h3>
-                                    <p><%= element.description.substring(0, 30) + "..." %></p>
+                                    <a class="read_more" href="/photos/<%= element._id %>"><img src="/images/ga.png"
+                                          alt="#" /></a>
+                                    <h3>
+                                       <%= element.name %>
+                                    </h3>
+                                    <p>
+                                       <%= element.description.substring(0, 30) + "..." %>
+                                    </p>
                                  </div>
                               </div>
                            </div>
                         </div>
-                     <% }) %>
-                     
-                     
+                        <% }) %>
 
-                    
-                     <div class="col-md-12">
-                        <a class="plus_btn" href="gallery.html">+</a>
-                     </div>
+
+
+
+                          
                   </div>
                </div>
             </div>

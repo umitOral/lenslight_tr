@@ -7,21 +7,37 @@ const { Schema } = mongoose
 const userSchema = new Schema({
     username: {
         type: String,
-        required: [true,"username area required"],
-        lowercase:true,
-        validate:[validator.isAlphanumeric,"Lütfen sadece harf kullanın"]
+        required: [true, "username area required"],
+        lowercase: true,
+        validate: [validator.isAlphanumeric, "Lütfen sadece harf kullanın"]
     },
     email: {
         type: String,
-        required: [true,"email area required"],
+        required: [true, "email area required"],
         unique: true,
-        validate:[validator.isEmail,"Lütfen geçerli bir mail adresi giriniz"]
+        validate: [validator.isEmail, "Lütfen geçerli bir mail adresi giriniz"]
     },
     password: {
         type: String,
-        required: [true,"password area required"],
-        minLength: [4,"en az 4 karakterli şifre giriniz."]
-    }
+        required: [true, "password area required"],
+        minLength: [4, "en az 4 karakterli şifre giriniz."]
+    },
+    isBlocked:{
+        type:Boolean,
+        default:false
+    },
+    followers:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ],
+    followings:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ],
 },
     {
         timestamps: true

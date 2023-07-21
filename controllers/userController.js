@@ -74,8 +74,11 @@ const createtoken = (userID) => {
 
 const getDashboardPage = async (req, res) => {
     const photos = await Photo.find({ user: res.locals.user._id })
-
+    const user = await User.findById({ _id: res.locals.user._id }).populate(["followers","followings"])
+    // .populate(["followings", "followers"])
+    console.log(user.followings)
     res.render("dashboard", {
+        user,
         photos,
         link: "dashboard"
     })
@@ -83,7 +86,7 @@ const getDashboardPage = async (req, res) => {
 const getAllUsers = async (req, res) => {
 
     try {
-        const users = await User.find({_id:{$ne:res.locals.user._id}})
+        const users = await User.find({ _id: { $ne: res.locals.user._id } })
         res.render("users", {
             users,
             link: "users"
@@ -99,11 +102,17 @@ const getAllUsers = async (req, res) => {
 
 const getSingleUser = async (req, res) => {
     try {
-        const photos = await Photo.find({ user:res.locals.user._id })
-        const users = await User.findById({ _id: req.params.id })
+        
+        const user = await User.findById({ _id: req.params.id })
+        const infollower= user.followers.some((follower)=>{
+            return follower.equals(res.locals.user._id)
+        })
+        const photos = await Photo.find({ user: user._id })
+
         res.status(201).render("userDetails", {
             photos,
-            users,
+            user,
+            infollower,
             link: ""
         })
     } catch (error) {
@@ -121,7 +130,59 @@ const getLogOut = (req, res) => {
     })
     res.redirect("/")
 }
+const follow = async (req, res) => {
+    try {
+        let user = await User.findByIdAndUpdate({ _id: res.locals.user._id },
+            {
+                $push: { followings: req.params.id }
+            },
+            {
+                new: true
+            })
+        user = await User.findByIdAndUpdate({ _id: req.params.id },
+            {
+                $push: { followers: res.locals.user._id }
+            },
+            {
+                new: true
+            })
+        res.redirect(`/users/${req.params.id}`)
+        // şu şekilde de kullanılabilir
+        // res.status(200).redirect("back")
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            mesage: error
+        })
+    }
+}
+const unfollow = async (req, res) => {
+    try {
+        let user = await User.findByIdAndUpdate({ _id: res.locals.user._id },
+            {
+                $pull: { followings: req.params.id }
+            },
+            {
+                new: true
+            })
+        user = await User.findByIdAndUpdate({ _id: req.params.id },
+            {
+                $pull: { followers: res.locals.user._id }
+            },
+            {
+                new: true
+            })
+            res.status(200).redirect("back")
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            mesage: error
+        })
+    }
+}
 
 
 
-export { createUser, loginUser, getDashboardPage, getLogOut, getSingleUser, getAllUsers }
+export { createUser, loginUser, getDashboardPage, getLogOut, getSingleUser, getAllUsers, follow, unfollow }
